@@ -6,22 +6,71 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public float MovementForce = 1;
+    public float raycastOffset;
+    public LayerMask groundLayers;
+    public float JumpingForce = 15f;
+    public float JumpingCooldwon = 0.1f;
+    public Vector2 CoyoteJumpArea = new Vector2(0.1f, 0.1f);
+
     private Rigidbody2D _rigidbody2D;
+    private Transform _transform;
     private Vector2 _lastInput; 
+    private bool WaitingForInput = true;
+    private bool DidIJump = true;
+    private float _lastInputTime;
+    private float _lastTimeOnPlatform;
     
     // Start is called before the first frame update
     private void Start()
     {
-       
+        _transform = transform;
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
-        _rigidbody2D.AddForce(_lastInput*MovementForce);
+        var isOnTheFloor = IsOnFloor();
+        var hasHorizontalInput = Mathf.Abs(_lastInput.x) > Mathf.Epsilon;
+        if (hasHorizontalInput)
+        {
+            _lastInputTime = Time.time;
+            WaitingForInput = false;
+            DidIJump = false;
+            _rigidbody2D.AddForce(_lastInput*MovementForce);   
+        }
+        else
+        {
+            if (Time.time - _lastInputTime >= JumpingCooldwon)
+            {
+                WaitingForInput = true;
+            }
+        }
+        
+        if (isOnTheFloor)
+        {
+            if (WaitingForInput && !DidIJump)
+            {
+                _rigidbody2D.velocity = _rigidbody2D.velocity+(Vector2.up*JumpingForce);
+                DidIJump = true;
+            }
+        }
+        
+        
+       
     }
 
+    private bool IsOnFloor()
+    {
+        Vector2 position2D = _transform.position;
+        var startPosition = position2D + Vector2.up * raycastOffset;
+        
+        var isOnTheFloor = Physics2D.OverlapBox(startPosition, CoyoteJumpArea, 0, groundLayers);
+        var endPostion = startPosition + Vector2.down * CoyoteJumpArea.y;
+        Debug.DrawLine(startPosition, endPostion, Color.red);
+        return isOnTheFloor;
+    }
+    
     public void ReadInput(InputAction.CallbackContext rawInput)
     {
         _lastInput = rawInput.ReadValue<Vector2>();
