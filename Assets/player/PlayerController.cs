@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
+using player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,66 +8,66 @@ public class PlayerController : MonoBehaviour
     public float raycastOffset;
     public LayerMask groundLayers;
     public float JumpingForce = 15f;
-    public float JumpingCooldwon = 0.1f;
     public float CoyoteTime = 0.2f;
     public PhysicalAnimator physicalAnimator;
 
-    private float CoyoteTimeCounter;
+    private float _timeRemainingForCoyoteState;
     private Rigidbody2D _rigidbody2D;
     private Transform _transform;
     private Vector2 _lastInput; 
-    private bool WaitingForInput = true;
-    private bool DidIJump = true;
-    private float _lastInputTime;
-    private float _lastTimeOnPlatform;
+    private bool _hadInputSinceLanded;
+    private PlayerStates _currentState;
     
-    // Start is called before the first frame update
     private void Start()
     {
         _transform = transform;
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _currentState = PlayerStates.Grounded;
     }
 
-    // Update is called once per frame
     private void FixedUpdate()
     {
-        var isOnTheFloor = IsOnFloor();
-        var hasHorizontalInput = Mathf.Abs(_lastInput.x) > Mathf.Epsilon;
-        var hasVerticalSpeed = Mathf.Abs(_rigidbody2D.velocity.y) > Mathf.Epsilon;
-        UpdateAnimator(hasHorizontalInput);
-        
-        if (hasHorizontalInput)
+        UpdateGroundedState();
+        TryExitCoyoteFall();
+        var isMoving = MoveHorizontally();
+        UpdateAnimator(isMoving);
+        TryJump(isMoving);
+    }
+
+    private void TryExitCoyoteFall()
+    {
+        if (_currentState == PlayerStates.FallingCoyote)
         {
-            _lastInputTime = Time.time;
-            WaitingForInput = false;
-            DidIJump = false;
-            _rigidbody2D.AddForce(_lastInput*MovementForce);   
-        }
-        else
-        {
-            if (Time.time - _lastInputTime >= JumpingCooldwon)
+            _timeRemainingForCoyoteState -= Time.deltaTime;
+            if (_timeRemainingForCoyoteState <= 0)
             {
-                WaitingForInput = true;
+                _currentState = PlayerStates.Falling;
             }
         }
+    }
+
+    private void TryJump(bool hasHorizontalInput)
+    {
+        if (hasHorizontalInput && _currentState == PlayerStates.Grounded)
+        {
+            _hadInputSinceLanded = true;
+        }
         
-        if (isOnTheFloor)
+        var canJump = (!hasHorizontalInput && _hadInputSinceLanded) &&
+                      _currentState is PlayerStates.Grounded or PlayerStates.FallingCoyote;
+        if (canJump)
         {
-            CoyoteTimeCounter = CoyoteTime;
-        }
-        else
-        {
-            CoyoteTimeCounter -= Time.deltaTime;
-        }
-        if (WaitingForInput && !DidIJump && CoyoteTimeCounter>0f && !hasVerticalSpeed )
-        {
-            _rigidbody2D.velocity = _rigidbody2D.velocity+(Vector2.up*JumpingForce);
-            DidIJump = true;
-            CoyoteTimeCounter = 0f;
+            Jump();
         }
     }
-    
-    private bool IsOnFloor()
+
+    private void Jump()
+    {
+        _rigidbody2D.velocity = _rigidbody2D.velocity+(Vector2.up*JumpingForce);
+        _currentState = PlayerStates.Jumped;
+    }
+
+    private void UpdateGroundedState()
     {
         Vector2 position2D = _transform.position;
         var startPosition = position2D + Vector2.up * raycastOffset;
@@ -78,13 +75,44 @@ public class PlayerController : MonoBehaviour
         bool isOnTheFloor = Physics2D.Raycast(startPosition, Vector2.down, 0.1f, groundLayers);
         var endPostion = startPosition + Vector2.down * 0.1f;
         Debug.DrawLine(startPosition, endPostion, Color.red);
-        return isOnTheFloor;
+
+        if (isOnTheFloor)
+        {
+            var hasVerticalSpeed = Mathf.Abs(_rigidbody2D.velocity.y) > Mathf.Epsilon;
+            if (_currentState is PlayerStates.Falling or PlayerStates.FallingCoyote ||
+                _currentState == PlayerStates.Jumped && !hasVerticalSpeed)
+            {
+                Land();
+            }
+        }
+        else if (_currentState == PlayerStates.Grounded)
+        {
+            _timeRemainingForCoyoteState = CoyoteTime;
+            _currentState = PlayerStates.FallingCoyote;
+        }
+    }
+
+    private void Land()
+    {
+        _currentState = PlayerStates.Grounded;
+        _hadInputSinceLanded = false;
     }
 
     private void UpdateAnimator(bool hasMovement)
     {
         physicalAnimator.isMoving = hasMovement;
         physicalAnimator.facingLeft = _lastInput.x < -0.1f;
+    }
+
+    private bool MoveHorizontally()
+    {
+        var hasHorizontalInput = Mathf.Abs(_lastInput.x) > Mathf.Epsilon;
+        if (hasHorizontalInput)
+        {
+            _rigidbody2D.AddForce(_lastInput*MovementForce);    
+        }
+        
+        return hasHorizontalInput;
     }
     
     public void ReadInput(InputAction.CallbackContext rawInput)
