@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour
     {
         var isOnTheFloor = IsOnFloor();
         var hasHorizontalInput = Mathf.Abs(_lastInput.x) > Mathf.Epsilon;
+        var hasVerticalSpeed = Mathf.Abs(_rigidbody2D.velocity.y) > Mathf.Epsilon;
         UpdateAnimator(hasHorizontalInput);
         
         if (hasHorizontalInput)
@@ -59,16 +62,14 @@ public class PlayerController : MonoBehaviour
         {
             CoyoteTimeCounter -= Time.deltaTime;
         }
-        if (WaitingForInput && !DidIJump && CoyoteTimeCounter>0f)
+        if (WaitingForInput && !DidIJump && CoyoteTimeCounter>0f && !hasVerticalSpeed )
         {
             _rigidbody2D.velocity = _rigidbody2D.velocity+(Vector2.up*JumpingForce);
             DidIJump = true;
             CoyoteTimeCounter = 0f;
         }
-        
-       
     }
-
+    
     private bool IsOnFloor()
     {
         Vector2 position2D = _transform.position;
@@ -91,3 +92,5 @@ public class PlayerController : MonoBehaviour
         _lastInput = rawInput.ReadValue<Vector2>();
     }
 }
+
+
