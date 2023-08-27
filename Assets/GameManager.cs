@@ -16,13 +16,13 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [SerializeField] private CameraScroll camera;
     [SerializeField] private PlayerController player;
+    [SerializeField] private MainMenuManager mainMenuManager;
     private GameManagerStates currentStates;
     
     // Start is called before the first frame update
     void Start()
     {
         instance = this;
-        StartPlayer();
     }
 
     // Update is called once per frame
@@ -52,6 +52,6 @@ public class GameManager : MonoBehaviour
         currentStates = GameManagerStates.GameEnded;
         camera.CameraStopScroll();
         player.StopMoving();
-        
+        mainMenuManager.Open();
     }
 }

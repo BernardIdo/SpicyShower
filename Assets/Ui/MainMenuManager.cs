@@ -13,6 +13,7 @@ public class MainMenuManager : MonoBehaviour
     public void StartGame()
     {
         CanvasGroup.DOFade(0, fadeDuration).onComplete = () => ToggleClick(false);
+        GameManager.instance.StartPlayer();
     }
 
     private void ToggleClick(bool canClick)
