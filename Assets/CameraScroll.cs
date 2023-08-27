@@ -5,9 +5,11 @@ using UnityEngine;
 public class CameraScroll : MonoBehaviour
 {
     public float ScrollSpeed = 0.1f;
+    public GameObject player;
+    public float DistanceToStartCatchUp = 5f;
     
     private Transform _transform;
-    public GameObject player;
+    private float _playerDistanceFromCamera;
     
     // Start is called before the first frame update
     void Start()
@@ -19,10 +21,22 @@ public class CameraScroll : MonoBehaviour
     void FixedUpdate()
     {
         var distanceThisFrame = ScrollSpeed * Time.fixedDeltaTime;
-        _transform.Translate(distanceThisFrame*Vector2.up); 
-        
-        Debug.Log("Player position is "+player.transform.position);
+        _playerDistanceFromCamera = player.transform.position.y - _transform.position.y;
+
+        var startCatchUp = _playerDistanceFromCamera > DistanceToStartCatchUp;
+        if (startCatchUp)
+        {
+            CameraCatchUp(distanceThisFrame);
+        }
+        else
+        {
+            _transform.Translate(distanceThisFrame*Vector2.up);
+        }
     }
-    
-    
+
+    private void CameraCatchUp(float distanceThisFrame)
+    {
+        var catchUpIncreaseRate = Mathf.Pow(_playerDistanceFromCamera-DistanceToStartCatchUp, 2);
+        _transform.Translate((distanceThisFrame+catchUpIncreaseRate)*Vector2.up);
+    }
 }
