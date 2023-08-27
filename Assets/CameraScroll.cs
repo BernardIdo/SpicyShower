@@ -7,7 +7,8 @@ public class CameraScroll : MonoBehaviour
     public float ScrollSpeed = 0.1f;
     public GameObject player;
     public float DistanceToStartCatchUp = 5f;
-    
+
+    private bool shouldScroll;
     private Transform _transform;
     private float _playerDistanceFromCamera;
     
@@ -15,11 +16,17 @@ public class CameraScroll : MonoBehaviour
     void Start()
     {
         _transform = transform;
+        shouldScroll = false;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!shouldScroll)
+        {
+            return;
+        }
+        
         var distanceThisFrame = ScrollSpeed * Time.fixedDeltaTime;
         _playerDistanceFromCamera = player.transform.position.y - _transform.position.y;
 
@@ -38,5 +45,15 @@ public class CameraScroll : MonoBehaviour
     {
         var catchUpIncreaseRate = Mathf.Pow(_playerDistanceFromCamera-DistanceToStartCatchUp, 2);
         _transform.Translate((distanceThisFrame+catchUpIncreaseRate)*Vector2.up);
+    }
+
+    public void CameraStartScroll()
+    {
+        shouldScroll = true;
+    }
+    
+    public void CameraStopScroll()
+    {
+        shouldScroll = false;
     }
 }

@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public float CoyoteTime = 0.2f;
     public PhysicalAnimator physicalAnimator;
 
+    private bool shouldMove;
     private float _timeRemainingForCoyoteState;
     private Rigidbody2D _rigidbody2D;
     private Transform _transform;
@@ -27,6 +28,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!shouldMove)
+        {
+            return;
+        }
         UpdateGroundedState();
         TryExitCoyoteFall();
         var isMoving = MoveHorizontally();
@@ -34,6 +39,10 @@ public class PlayerController : MonoBehaviour
         TryJump(isMoving);
     }
 
+    private void CheckIfDead()
+    {
+        GameManager.instance.EndGame();
+    }
     private void TryExitCoyoteFall()
     {
         if (_currentState == PlayerStates.FallingCoyote)
@@ -65,6 +74,7 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody2D.velocity = _rigidbody2D.velocity+(Vector2.up*JumpingForce);
         _currentState = PlayerStates.Jumped;
+        GameManager.instance.TryStartGame();
     }
 
     private void UpdateGroundedState()
@@ -101,7 +111,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateAnimator(bool hasMovement)
     {
         physicalAnimator.isMoving = hasMovement;
-        physicalAnimator.facingLeft = _lastInput.x < -0.1f;
+        physicalAnimator.facingLeft = _rigidbody2D.velocity.x < -0.1f;
     }
 
     private bool MoveHorizontally()
@@ -118,6 +128,15 @@ public class PlayerController : MonoBehaviour
     public void ReadInput(InputAction.CallbackContext rawInput)
     {
         _lastInput = rawInput.ReadValue<Vector2>();
+    }
+
+    public void StopMoving()
+    {
+        shouldMove = false;
+    }
+    public void StartMoving()
+    {
+        shouldMove = true;
     }
 }
 
