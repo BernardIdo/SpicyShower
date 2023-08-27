@@ -10,8 +10,9 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayers;
     public float JumpingForce = 15f;
     public float JumpingCooldwon = 0.1f;
-    public Vector2 CoyoteJumpArea = new Vector2(0.1f, 0.1f);
+    public float CoyoteTime = 0.2f;
 
+    private float CoyoteTimeCounter;
     private Rigidbody2D _rigidbody2D;
     private Transform _transform;
     private Vector2 _lastInput; 
@@ -49,13 +50,18 @@ public class PlayerController : MonoBehaviour
         
         if (isOnTheFloor)
         {
-            if (WaitingForInput && !DidIJump)
-            {
-                _rigidbody2D.velocity = _rigidbody2D.velocity+(Vector2.up*JumpingForce);
-                DidIJump = true;
-            }
+            CoyoteTimeCounter = CoyoteTime;
         }
-        
+        else
+        {
+            CoyoteTimeCounter -= Time.deltaTime;
+        }
+        if (WaitingForInput && !DidIJump && CoyoteTimeCounter>0f)
+        {
+            _rigidbody2D.velocity = _rigidbody2D.velocity+(Vector2.up*JumpingForce);
+            DidIJump = true;
+            CoyoteTimeCounter = 0f;
+        }
         
        
     }
@@ -64,9 +70,9 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 position2D = _transform.position;
         var startPosition = position2D + Vector2.up * raycastOffset;
-        
-        var isOnTheFloor = Physics2D.OverlapBox(startPosition, CoyoteJumpArea, 0, groundLayers);
-        var endPostion = startPosition + Vector2.down * CoyoteJumpArea.y;
+
+        bool isOnTheFloor = Physics2D.Raycast(startPosition, Vector2.down, 0.1f, groundLayers);
+        var endPostion = startPosition + Vector2.down * 0.1f;
         Debug.DrawLine(startPosition, endPostion, Color.red);
         return isOnTheFloor;
     }

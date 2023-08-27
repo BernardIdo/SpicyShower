@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CameraScroll : MonoBehaviour
 {
-    private Transform _transform;
     public float ScrollSpeed = 0.1f;
+    
+    private Transform _transform;
     
     
     // Start is called before the first frame update
@@ -20,4 +21,6 @@ public class CameraScroll : MonoBehaviour
         var distanceThisFrame = ScrollSpeed * Time.fixedDeltaTime;
         _transform.Translate(distanceThisFrame*Vector2.up); 
     }
+    
+    
 }
