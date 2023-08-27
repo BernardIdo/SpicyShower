@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public float JumpingForce = 15f;
     public float JumpingCooldwon = 0.1f;
     public float CoyoteTime = 0.2f;
+    public PhysicalAnimator physicalAnimator;
 
     private float CoyoteTimeCounter;
     private Rigidbody2D _rigidbody2D;
@@ -33,6 +34,8 @@ public class PlayerController : MonoBehaviour
     {
         var isOnTheFloor = IsOnFloor();
         var hasHorizontalInput = Mathf.Abs(_lastInput.x) > Mathf.Epsilon;
+        UpdateAnimator(hasHorizontalInput);
+        
         if (hasHorizontalInput)
         {
             _lastInputTime = Time.time;
@@ -75,6 +78,12 @@ public class PlayerController : MonoBehaviour
         var endPostion = startPosition + Vector2.down * 0.1f;
         Debug.DrawLine(startPosition, endPostion, Color.red);
         return isOnTheFloor;
+    }
+
+    private void UpdateAnimator(bool hasMovement)
+    {
+        physicalAnimator.isMoving = hasMovement;
+        physicalAnimator.facingLeft = _lastInput.x < -0.1f;
     }
     
     public void ReadInput(InputAction.CallbackContext rawInput)
