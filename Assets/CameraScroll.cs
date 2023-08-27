@@ -7,7 +7,7 @@ public class CameraScroll : MonoBehaviour
     public float ScrollSpeed = 0.1f;
     
     private Transform _transform;
-    
+    public GameObject player;
     
     // Start is called before the first frame update
     void Start()
@@ -20,6 +20,8 @@ public class CameraScroll : MonoBehaviour
     {
         var distanceThisFrame = ScrollSpeed * Time.fixedDeltaTime;
         _transform.Translate(distanceThisFrame*Vector2.up); 
+        
+        Debug.Log("Player position is "+player.transform.position);
     }
     
     
