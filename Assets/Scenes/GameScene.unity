@@ -926,6 +926,7 @@ MonoBehaviour:
   sounds: {fileID: 144791494}
   mainMenuManager: {fileID: 945740962}
   scoreCounter: {fileID: 1333390801}
+  platformGeneration: {fileID: 1103818527}
 --- !u!4 &1189212015
 Transform:
   m_ObjectHideFlags: 0

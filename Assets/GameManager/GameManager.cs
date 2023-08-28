@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private soundEffectsManager sounds;
     [SerializeField] private MainMenuManager mainMenuManager;
     [SerializeField] private ScoreCounter scoreCounter;
+    [SerializeField] private PlatformGeneration platformGeneration;
     
     private GameManagerStates _currentStates;
     
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
         player.StartMoving();
         sounds.playGameSounds();
         player.PositionForNewGame();
+        platformGeneration.initializePlatforms();
         CameraScroll.instance.PositionForNewGame();
         scoreCounter.StartCounting(player.transform);
     }

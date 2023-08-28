@@ -14,17 +14,7 @@ public class PlatformGeneration : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        topPlatformPosition = Vector3.zero;
-        difficulty = 0;
-        
-        foreach (var platform in availablePlatforms)
-        {
-            platform.onPlatformOutOfScreen -= HandlePlatformExitScreen;
-            platform.onPlatformOutOfScreen += HandlePlatformExitScreen;
-
-            platform._transform.position = topPlatformPosition;
-            topPlatformPosition = getNextPlatformPosition(platform);
-        }
+       initializePlatforms();
     }
 
     // Update is called once per frame
@@ -42,6 +32,21 @@ public class PlatformGeneration : MonoBehaviour
     {
         platform._transform.position = getNextPlatformPosition(platform);
         topPlatformPosition = platform._transform.position;
+    }
+
+    public void initializePlatforms()
+    {
+        topPlatformPosition = Vector3.zero;
+        difficulty = 0;
+        
+        foreach (var platform in availablePlatforms)
+        {
+            platform.onPlatformOutOfScreen -= HandlePlatformExitScreen;
+            platform.onPlatformOutOfScreen += HandlePlatformExitScreen;
+
+            platform._transform.position = topPlatformPosition;
+            topPlatformPosition = getNextPlatformPosition(platform);
+        }
     }
 
     private Vector2 getNextPlatformPosition(platform platform)
