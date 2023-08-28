@@ -18,12 +18,14 @@ public class PlayerController : MonoBehaviour
     private Vector2 _lastInput; 
     private bool _hadInputSinceLanded;
     private PlayerStates _currentState;
+    private Vector3 _initialPosition;
     
     private void Start()
     {
         _transform = transform;
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _currentState = PlayerStates.Grounded;
+        _initialPosition = _transform.position;
     }
 
     private void FixedUpdate()
@@ -133,6 +135,11 @@ public class PlayerController : MonoBehaviour
     public void StartMoving()
     {
         shouldMove = true;
+    }
+
+    public void PositionForNewGame()
+    {
+        _transform.position = _initialPosition;
     }
 }
 

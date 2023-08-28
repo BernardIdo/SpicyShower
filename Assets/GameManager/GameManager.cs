@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
         currentStates = GameManagerStates.AwaitingPlayer;
         player.StartMoving();
         sounds.playGameSounds();
+        player.PositionForNewGame();
+        CameraScroll.instance.PositionForNewGame();
     }
     
     public void TryStartGame()
@@ -45,7 +47,6 @@ public class GameManager : MonoBehaviour
             currentStates = GameManagerStates.GameActive;
             CameraScroll.instance.CameraStartScroll();
         }
-        
     }
     
     public void EndGame()

@@ -13,6 +13,7 @@ public class CameraScroll : MonoBehaviour
     private bool shouldScroll;
     private Transform _transform;
     private float _playerDistanceFromCamera;
+    private Vector3 _initialPosition;
     
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class CameraScroll : MonoBehaviour
         instance = this;
         _transform = transform;
         shouldScroll = false;
+        _initialPosition = _transform.position;
     }
 
     // Update is called once per frame
@@ -59,5 +61,9 @@ public class CameraScroll : MonoBehaviour
     {
         shouldScroll = false;
     }
-    
+
+    public void PositionForNewGame()
+    {
+        _transform.position = _initialPosition;
+    }
 }
