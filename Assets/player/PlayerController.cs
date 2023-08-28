@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private bool _hadInputSinceLanded;
     private PlayerStates _currentState;
     private Vector3 _initialPosition;
+    private bool _moving;
     
     private void Start()
     {
@@ -26,6 +27,22 @@ public class PlayerController : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _currentState = PlayerStates.Grounded;
         _initialPosition = _transform.position;
+        PhoneInput.instance.onDrag -= HandleDrag;
+        PhoneInput.instance.onDrag += HandleDrag;
+        PhoneInput.instance.onRelease -= HandleRelease;
+        PhoneInput.instance.onRelease += HandleRelease;
+    }
+
+    private void HandleDrag(bool isLeft)
+    {
+        _lastInput.x = isLeft ? -1 : 1;
+        _moving = true;
+    }
+
+    private void HandleRelease()
+    {
+        _moving = false;
+        _lastInput = Vector2.zero;
     }
 
     private void FixedUpdate()
@@ -36,11 +53,11 @@ public class PlayerController : MonoBehaviour
         }
         UpdateGroundedState();
         TryExitCoyoteFall();
-        var isMoving = MoveHorizontally();
-        UpdateAnimator(isMoving);
-        TryJump(isMoving);
+        MoveHorizontally();
+        UpdateAnimator(_moving);
+        TryJump();
     }
-    
+
     private void TryExitCoyoteFall()
     {
         if (_currentState == PlayerStates.FallingCoyote)
@@ -53,14 +70,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void TryJump(bool hasHorizontalInput)
+    private void TryJump()
     {
-        if (hasHorizontalInput && _currentState == PlayerStates.Grounded)
+        if (_moving && _currentState == PlayerStates.Grounded)
         {
             _hadInputSinceLanded = true;
         }
         
-        var canJump = (!hasHorizontalInput && _hadInputSinceLanded) &&
+        var canJump = (!_moving && _hadInputSinceLanded) &&
                       _currentState is PlayerStates.Grounded or PlayerStates.FallingCoyote;
         if (canJump)
         {
