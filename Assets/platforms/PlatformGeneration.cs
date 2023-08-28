@@ -6,7 +6,10 @@ public class PlatformGeneration : MonoBehaviour
 {
 
     public List<platform> availablePlatforms;
+    
     private List<platform> activePlatforms;
+    private Vector3 topPlatformPosition;
+    public float difficulty;
         
     // Start is called before the first frame update
     void Start()
@@ -16,6 +19,9 @@ public class PlatformGeneration : MonoBehaviour
             platform.onPlatformOutOfScreen -= HandlePlatformExitScreen;
             platform.onPlatformOutOfScreen += HandlePlatformExitScreen;
         }
+
+        topPlatformPosition = 35 * Vector3.up;
+        difficulty = 0;
     }
 
     // Update is called once per frame
@@ -31,6 +37,16 @@ public class PlatformGeneration : MonoBehaviour
 
     private void HandlePlatformExitScreen(platform platform)
     {
-        platform._transform.position += Vector3.up * 36;
+        var stepUp = Random.Range(2 + difficulty, 6 + difficulty);
+        var stepSideways = Random.Range(-6+platform.platformLength/2, 6-platform.platformLength/2);
+
+        var platformNewHeight = Vector2.up*(topPlatformPosition.y + stepUp);
+        var platformNewHorizontal = Vector2.right * (stepSideways);
+
+        platform._transform.position = platformNewHeight + platformNewHorizontal;
+        topPlatformPosition = platform._transform.position;
+        
+   
+
     }
 }

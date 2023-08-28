@@ -23,7 +23,6 @@ public class gameEnder : MonoBehaviour
         _shouldEndGame = playerDistanceFromCamera < _isTooFarEndGameDistance;
         if (_shouldEndGame)
         {
-            Debug.Log("i ended the game muhahah");
             GameManager.instance.EndGame();
         }
     }
