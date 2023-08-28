@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MainMenuManager mainMenuManager;
     [SerializeField] private ScoreCounter scoreCounter;
     [SerializeField] private PlatformGeneration platformGeneration;
+    [SerializeField] private WallsManager _wallsManager;
     
     private GameManagerStates _currentStates;
     
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
         sounds.playGameSounds();
         player.PositionForNewGame();
         platformGeneration.initializePlatforms();
+        _wallsManager.initializeWalls();
         CameraScroll.instance.PositionForNewGame();
         scoreCounter.StartCounting(player.transform);
     }
