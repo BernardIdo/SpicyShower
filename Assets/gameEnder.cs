@@ -7,7 +7,6 @@ public class gameEnder : MonoBehaviour
 {
 
     [SerializeField] private PlayerController player;
-    [SerializeField] private Camera camera;
     private bool _shouldEndGame;
     private float _isTooFarEndGameDistance = -12f;
     
@@ -20,10 +19,11 @@ public class gameEnder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var playerDistanceFromCamera = player.transform.position.y - camera.transform.position.y;
+        var playerDistanceFromCamera = player.transform.position.y - CameraScroll.instance.transform.position.y;
         _shouldEndGame = playerDistanceFromCamera < _isTooFarEndGameDistance;
         if (_shouldEndGame)
         {
+            Debug.Log("i ended the game muhahah");
             GameManager.instance.EndGame();
         }
     }

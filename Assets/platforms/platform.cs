@@ -11,8 +11,7 @@ public class platform : MonoBehaviour
     [HideInInspector] public float distanceFromPreviousPlatform;
     [HideInInspector] public Transform _transform;
     public Action<platform> onPlatformOutOfScreen;
-
-    private Camera camera;
+    
     private Vector2 centerOfPlatform;
     private float distanceFromCamera;
     
@@ -26,7 +25,7 @@ public class platform : MonoBehaviour
     void Update()
     {
         centerOfPlatform = transform.position;
-        distanceFromCamera = camera.transform.position.y - centerOfPlatform.y;
+        distanceFromCamera = CameraScroll.instance.transform.position.y - centerOfPlatform.y;
         
         var isOutOfScreen = distanceFromCamera > 12f;
         if (isOutOfScreen)

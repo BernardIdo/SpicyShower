@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     }
     
     public static GameManager instance;
-    [SerializeField] private CameraScroll camera;
     [SerializeField] private PlayerController player;
     [SerializeField] private soundEffectsManager sounds;
     [SerializeField] private MainMenuManager mainMenuManager;
@@ -44,7 +43,7 @@ public class GameManager : MonoBehaviour
         if (currentStates == GameManagerStates.AwaitingPlayer)
         {
             currentStates = GameManagerStates.GameActive;
-            camera.CameraStartScroll();
+            CameraScroll.instance.CameraStartScroll();
         }
         
     }
@@ -54,8 +53,8 @@ public class GameManager : MonoBehaviour
         if (currentStates == GameManagerStates.GameActive)
         {
             currentStates = GameManagerStates.GameEnded;
-            camera.CameraStopScroll();
             sounds.playEndgameSounds();
+            CameraScroll.instance.CameraStopScroll();
             player.StopMoving();
             mainMenuManager.Open();
         }

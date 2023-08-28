@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraScroll : MonoBehaviour
 {
+    public static CameraScroll instance;
+    
     public float ScrollSpeed = 0.1f;
     public GameObject player;
     public float DistanceToStartCatchUp = 5f;
@@ -15,6 +17,7 @@ public class CameraScroll : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        instance = this;
         _transform = transform;
         shouldScroll = false;
     }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class soundEffectsManager : MonoBehaviour
 {
     
-    [SerializeField] private Camera camera;
     [SerializeField] private AudioSource theme;
     [SerializeField] private AudioClip deathSound;
     
@@ -28,6 +27,6 @@ public class soundEffectsManager : MonoBehaviour
     public void playEndgameSounds()
     {
         theme.Pause();
-        AudioSource.PlayClipAtPoint(deathSound, camera.transform.position);
+        AudioSource.PlayClipAtPoint(deathSound, CameraScroll.instance.transform.position);
     }
 }
