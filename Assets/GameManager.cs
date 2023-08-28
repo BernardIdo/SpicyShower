@@ -17,13 +17,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraScroll camera;
     [SerializeField] private PlayerController player;
     [SerializeField] private soundEffectsManager sounds;
+    [SerializeField] private MainMenuManager mainMenuManager;
     private GameManagerStates currentStates;
     
     // Start is called before the first frame update
     void Start()
     {
         instance = this;
-        StartPlayer();
     }
 
     // Update is called once per frame
@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
             camera.CameraStopScroll();
             sounds.playEndgameSounds();
             player.StopMoving();
+            mainMenuManager.Open();
         }
     }
 }
