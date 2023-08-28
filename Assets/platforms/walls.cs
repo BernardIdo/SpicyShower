@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class walls : MonoBehaviour
 {
-    private Transform _transform;
+    public Vector2 initialCoordination;
+    public Transform _transform;
     private Vector2 centerOfWall;
     
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _transform = transform;
+        initialCoordination = transform.position;
     }
 
     // Update is called once per frame
@@ -25,5 +27,10 @@ public class walls : MonoBehaviour
         {
             transform.position += Vector3.up * 20f;
         }
+    }
+
+    public void initializeWalls()
+    {
+        transform.position = initialCoordination;
     }
 }
