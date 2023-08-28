@@ -16,7 +16,7 @@ public class platform : MonoBehaviour
     private float distanceFromCamera;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _transform = transform;
     }
