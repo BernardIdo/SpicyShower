@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class ScoreCounter : MonoBehaviour
 {
+    private const string KHighestScoreKey = "highestScore";
     public TMP_Text scoreText;
+    public TMP_Text highestScoreText;
     public float heightToScoreRatio = 1;
     public float checkpointInterval = 50f;
     public float checkpointReward = 10;
@@ -21,6 +23,7 @@ public class ScoreCounter : MonoBehaviour
     {
         _highestY = 0;
         _lastCheckPoint = 0;
+        highestScoreText.text = PlayerPrefs.GetFloat(KHighestScoreKey, 0).ToString("N1");
         UpdateScore();
     }
 
@@ -35,6 +38,11 @@ public class ScoreCounter : MonoBehaviour
 
     public void StopCounting()
     {
+        if (_highestY > PlayerPrefs.GetFloat(KHighestScoreKey, 0))
+        {
+            highestScoreText.text =_highestY.ToString("N1");
+            PlayerPrefs.SetFloat(KHighestScoreKey, _highestY);
+        }
         _active = false;
     }
 

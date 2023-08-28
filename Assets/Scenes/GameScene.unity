@@ -879,6 +879,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111fa73b5701ca2468b3f1050f7b0f4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &945740963 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2078441196303061949, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+  m_PrefabInstance: {fileID: 945740961}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1103818525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1315,6 +1326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1748330518}
+  highestScoreText: {fileID: 945740963}
   heightToScoreRatio: 1
   checkpointInterval: 50
   checkpointReward: 10

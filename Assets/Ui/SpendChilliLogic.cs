@@ -28,10 +28,7 @@ public class SpendChilliLogic : MonoBehaviour
 
     public void TrySpendChillies()
     {
-        if (Wallet.instance.Currency >= steps[_currentStep].cost)
-        {
-            UpdateStep();
-        }
+        UpdateStep();
     }
 
     private void UpdateStep()
