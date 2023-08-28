@@ -14,25 +14,25 @@ public class Wallet : MonoBehaviour
     {
         instance = this;
         Currency = PlayerPrefs.GetFloat(KCurrencyKey, 0);
-        currencyText.text = Currency.ToString();
+        UpdateCurrencyInternal(0);
     }
 
     public void AddCurrency(float amount)
     {
         var securedAmount = Mathf.Abs(amount);
-        UpdateCurrency(securedAmount);
+        UpdateCurrencyInternal(securedAmount);
     }
     
     public void SpendCurrency(float amount)
     {
         var securedAmount = Mathf.Abs(amount);
-        UpdateCurrency(- securedAmount);
+        UpdateCurrencyInternal(- securedAmount);
     }
 
-    private void UpdateCurrency(float delta)
+    private void UpdateCurrencyInternal(float delta)
     {
         Currency += delta;
         PlayerPrefs.SetFloat(KCurrencyKey, Currency);
-        currencyText.text = Currency.ToString("n1");
+        currencyText.text = Currency.ToString("n0");
     }
 }

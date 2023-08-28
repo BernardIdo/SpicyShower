@@ -62,6 +62,6 @@ public class ScoreCounter : MonoBehaviour
     private void UpdateScore()
     {
         Score = heightToScoreRatio * _highestY;
-        scoreText.text = Score.ToString("n1");
+        scoreText.text = Score.ToString("n0");
     }
 }
