@@ -17,46 +17,44 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerController player;
     [SerializeField] private soundEffectsManager sounds;
     [SerializeField] private MainMenuManager mainMenuManager;
-    private GameManagerStates currentStates;
+    [SerializeField] private ScoreCounter scoreCounter;
+    
+    private GameManagerStates _currentStates;
     
     // Start is called before the first frame update
     void Start()
     {
         instance = this;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     public void StartPlayer()
     {
-        currentStates = GameManagerStates.AwaitingPlayer;
+        _currentStates = GameManagerStates.AwaitingPlayer;
         player.StartMoving();
         sounds.playGameSounds();
         player.PositionForNewGame();
         CameraScroll.instance.PositionForNewGame();
+        scoreCounter.StartCounting(player.transform);
     }
     
     public void TryStartGame()
     {
-        if (currentStates == GameManagerStates.AwaitingPlayer)
+        if (_currentStates == GameManagerStates.AwaitingPlayer)
         {
-            currentStates = GameManagerStates.GameActive;
+            _currentStates = GameManagerStates.GameActive;
             CameraScroll.instance.CameraStartScroll();
         }
     }
     
     public void EndGame()
     {
-        if (currentStates == GameManagerStates.GameActive)
+        if (_currentStates == GameManagerStates.GameActive)
         {
-            currentStates = GameManagerStates.GameEnded;
+            _currentStates = GameManagerStates.GameEnded;
             sounds.playEndgameSounds();
             CameraScroll.instance.CameraStopScroll();
             player.StopMoving();
+            scoreCounter.StopCounting();
             mainMenuManager.Open();
         }
     }
