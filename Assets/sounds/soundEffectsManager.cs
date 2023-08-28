@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class soundEffectsManager : MonoBehaviour
 {
     
+    [FormerlySerializedAs("camera")] [SerializeField] private CameraScroll cameraScroll;
     [SerializeField] private AudioSource theme;
     [SerializeField] private AudioClip deathSound;
     
@@ -27,6 +29,6 @@ public class soundEffectsManager : MonoBehaviour
     public void playEndgameSounds()
     {
         theme.Pause();
-        AudioSource.PlayClipAtPoint(deathSound, CameraScroll.instance.transform.position);
+        AudioSource.PlayClipAtPoint(deathSound, cameraScroll.transform.position);
     }
 }

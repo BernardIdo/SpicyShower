@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class gameEnder : MonoBehaviour
 {
 
     [SerializeField] private PlayerController player;
+    [FormerlySerializedAs("camera")] [SerializeField] private CameraScroll cameraScroll;
     private bool _shouldEndGame;
     private float _isTooFarEndGameDistance = -12f;
     
@@ -19,7 +21,7 @@ public class gameEnder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var playerDistanceFromCamera = player.transform.position.y - CameraScroll.instance.transform.position.y;
+        var playerDistanceFromCamera = player.transform.position.y - cameraScroll.transform.position.y;
         _shouldEndGame = playerDistanceFromCamera < _isTooFarEndGameDistance;
         if (_shouldEndGame)
         {

@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84cdd27e9744ff4695391596eb32d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraScroll: {fileID: 595255021}
   theme: {fileID: 144791496}
   deathSound: {fileID: 8300000, guid: d8e9e3d3d5f3c2744ae81cbb857f38c6, type: 3}
 --- !u!4 &144791495
@@ -569,6 +570,17 @@ MonoBehaviour:
   platformLength: 0
   distanceFromPreviousPlatform: 0
   _transform: {fileID: 0}
+--- !u!114 &595255021 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2438477730790158596, guid: 21c958f8eecce2944905658ca0c62145, type: 3}
+  m_PrefabInstance: {fileID: 6797579049908201055}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ba1c0ba3dfa1945bff004c654312e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &691863866
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +734,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1808757235872716188, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808757235872716188, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808757235872716188, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808757235872716188, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808757235872716188, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824169692117231248, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5061741473204070741, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
       propertyPath: m_Name
       value: MainMenu
@@ -808,6 +844,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5061741473204070744, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994069815187165981, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994069815187165981, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994069815187165981, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994069815187165981, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994069815187165981, guid: e6a21cb11f4ad1f42aa1b1c6b047b82a, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -922,6 +978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff97e253949a2f41895a2043cf05a4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraScroll: {fileID: 595255021}
   player: {fileID: 1117387269}
   sounds: {fileID: 144791494}
   mainMenuManager: {fileID: 945740962}
@@ -956,6 +1013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1117387269}
+  cameraScroll: {fileID: 595255021}
 --- !u!1 &1291853134
 GameObject:
   m_ObjectHideFlags: 0

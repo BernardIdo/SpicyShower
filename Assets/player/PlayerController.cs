@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         UpdateAnimator(_moving);
         TryJump();
     }
-
+    
     private void TryExitCoyoteFall()
     {
         if (_currentState == PlayerStates.FallingCoyote)
@@ -98,8 +98,8 @@ public class PlayerController : MonoBehaviour
         var startPosition = position2D + Vector2.up * raycastOffset;
 
         bool isOnTheFloor = Physics2D.Raycast(startPosition, Vector2.down, 0.1f, groundLayers);
-        var endPostion = startPosition + Vector2.down * 0.1f;
-        Debug.DrawLine(startPosition, endPostion, Color.red);
+        var endPosition = startPosition + Vector2.down * 0.1f;
+        Debug.DrawLine(startPosition, endPosition, Color.red);
 
         if (isOnTheFloor)
         {

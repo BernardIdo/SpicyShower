@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
     }
     
     public static GameManager instance;
+    [FormerlySerializedAs("camera")] [SerializeField] private CameraScroll cameraScroll;
     [SerializeField] private PlayerController player;
     [SerializeField] private soundEffectsManager sounds;
     [SerializeField] private MainMenuManager mainMenuManager;
@@ -46,7 +48,7 @@ public class GameManager : MonoBehaviour
         if (_currentStates == GameManagerStates.AwaitingPlayer)
         {
             _currentStates = GameManagerStates.GameActive;
-            CameraScroll.instance.CameraStartScroll();
+            cameraScroll.CameraStartScroll();
         }
     }
     
@@ -55,6 +57,7 @@ public class GameManager : MonoBehaviour
         if (_currentStates == GameManagerStates.GameActive)
         {
             _currentStates = GameManagerStates.GameEnded;
+            cameraScroll.CameraStopScroll();
             sounds.playEndgameSounds();
             CameraScroll.instance.CameraStopScroll();
             player.StopMoving();
