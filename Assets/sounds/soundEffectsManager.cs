@@ -5,7 +5,7 @@ using UnityEngine;
 public class soundEffectsManager : MonoBehaviour
 {
     
-    [SerializeField] private CameraScroll camera;
+    [SerializeField] private Camera camera;
     [SerializeField] private AudioSource theme;
     [SerializeField] private AudioClip deathSound;
     

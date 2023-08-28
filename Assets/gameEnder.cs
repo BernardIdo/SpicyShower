@@ -7,7 +7,7 @@ public class gameEnder : MonoBehaviour
 {
 
     [SerializeField] private PlayerController player;
-    [SerializeField] private CameraScroll camera;
+    [SerializeField] private Camera camera;
     private bool _shouldEndGame;
     private float _isTooFarEndGameDistance = -12f;
     

@@ -38,11 +38,7 @@ public class PlayerController : MonoBehaviour
         UpdateAnimator(isMoving);
         TryJump(isMoving);
     }
-
-    private void CheckIfDead()
-    {
-        GameManager.instance.EndGame();
-    }
+    
     private void TryExitCoyoteFall()
     {
         if (_currentState == PlayerStates.FallingCoyote)
